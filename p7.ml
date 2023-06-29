@@ -3,11 +3,11 @@ type 'a node =
   | Many of 'a node list
 
 let flatten l =
-  let rec aux l flat =
+  let rec aux l acc =
     match l with
-    | [] -> flat
-    | One x :: xs -> aux xs (flat @ [x])
-    | Many x :: xs -> aux xs (flat @ aux x [])
+    | [] -> acc
+    | One x :: xs -> aux xs (x :: acc)
+    | Many xs :: ys -> aux (xs @ ys) acc
 
   in
-  aux l []
+  List.rev (aux l [])
